@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTrack</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="app-shell">
+        <section class="auth-view" id="authView">
+            <div class="brand-panel">
+                <div class="brand-lockup">
+                    <div class="brand-emblem" aria-hidden="true">
+                        <svg viewBox="0 0 48 48" focusable="false">
+                            <path class="emblem-orbit" d="M12 31C16 19 27 12 39 14" />
+                            <path class="emblem-track" d="M13 31L20 24L27 28L37 17" />
+                            <path class="emblem-bar" d="M15 33V27" />
+                            <path class="emblem-bar" d="M24 33V23" />
+                            <path class="emblem-bar" d="M33 33V18" />
+                            <circle class="emblem-node" cx="37" cy="17" r="3" />
+                        </svg>
+                    </div>
+                    <strong class="brand-name">Fin<span>Track</span></strong>
+                </div>
+                <div>
+                    <p class="eyebrow">FinTrack</p>
+                    <h1>Controle financeiro direto ao ponto.</h1>
+                </div>
+                <div class="summary-strip">
+                    <div>
+                        <span>Receitas</span>
+                        <strong>+R$ 8.420</strong>
+                    </div>
+                    <div>
+                        <span>Despesas</span>
+                        <strong>-R$ 3.180</strong>
+                    </div>
+                    <div>
+                        <span>Saldo</span>
+                        <strong>R$ 5.240</strong>
+                    </div>
+                </div>
+            </div>
+
+            <section class="auth-panel" aria-label="Acesso ao FinTrack">
+                <div class="auth-tabs" role="tablist">
+                    <button class="tab-button active" id="loginTab" type="button">Entrar</button>
+                    <button class="tab-button" id="registerTab" type="button">Cadastrar</button>
+                </div>
+
+                <form class="auth-form" id="authForm">
+                    <label class="field register-only" for="nameInput">
+                        <span>Nome</span>
+                        <input id="nameInput" name="name" type="text" autocomplete="name">
+                    </label>
+                    <label class="field" for="emailInput">
+                        <span>Email</span>
+                        <input id="emailInput" name="email" type="email" autocomplete="email" required>
+                    </label>
+                    <label class="field" for="passwordInput">
+                        <span>Senha</span>
+                        <input id="passwordInput" name="password" type="password" autocomplete="current-password" required>
+                    </label>
+                    <button class="primary-button" id="authSubmit" type="submit">Entrar</button>
+                    <p class="status-message" id="authStatus" aria-live="polite"></p>
+                </form>
+            </section>
+        </section>
+
+        <section class="dashboard-view hidden" id="dashboardView">
+            <aside class="sidebar">
+                <div class="sidebar-brand">
+                    <div class="brand-lockup">
+                        <div class="brand-emblem" aria-hidden="true">
+                            <svg viewBox="0 0 48 48" focusable="false">
+                                <path class="emblem-orbit" d="M12 31C16 19 27 12 39 14" />
+                                <path class="emblem-track" d="M13 31L20 24L27 28L37 17" />
+                                <path class="emblem-bar" d="M15 33V27" />
+                                <path class="emblem-bar" d="M24 33V23" />
+                                <path class="emblem-bar" d="M33 33V18" />
+                                <circle class="emblem-node" cx="37" cy="17" r="3" />
+                            </svg>
+                        </div>
+                        <strong class="brand-name">Fin<span>Track</span></strong>
+                    </div>
+                </div>
+                <nav class="nav-list" aria-label="Navegação principal">
+                    <button class="nav-item active" type="button">Resumo</button>
+                    <button class="nav-item" type="button">Transações</button>
+                    <button class="nav-item" type="button">Categorias</button>
+                </nav>
+                <button class="ghost-button" id="logoutButton" type="button">Sair</button>
+            </aside>
+
+            <section class="content-area">
+                <header class="topbar">
+                    <div>
+                        <p class="eyebrow">Painel financeiro</p>
+                        <h2>Resumo da conta</h2>
+                    </div>
+                    <button class="secondary-button" id="refreshButton" type="button">Atualizar</button>
+                </header>
+
+                <section class="metrics-grid" aria-label="Indicadores financeiros">
+                    <article class="metric-card balance-card">
+                        <span>Saldo atual</span>
+                        <strong id="balanceValue">R$ 0,00</strong>
+                    </article>
+                    <article class="metric-card">
+                        <span>Receitas</span>
+                        <strong class="income" id="incomeValue">R$ 0,00</strong>
+                    </article>
+                    <article class="metric-card">
+                        <span>Despesas</span>
+                        <strong class="expense" id="expenseValue">R$ 0,00</strong>
+                    </article>
+                    <article class="metric-card recurring-card">
+                        <span>Recorrentes do mês</span>
+                        <strong id="recurringValue">R$ 0,00</strong>
+                        <small>despesas programadas</small>
+                    </article>
+                </section>
+
+                <section class="workspace-grid">
+                    <form class="transaction-form" id="transactionForm">
+                        <div class="section-heading">
+                            <h3>Nova transação</h3>
+                        </div>
+                        <label class="field" for="descriptionInput">
+                            <span>Descrição</span>
+                            <input id="descriptionInput" type="text" required>
+                        </label>
+                        <label class="field" for="amountInput">
+                            <span>Valor</span>
+                            <input id="amountInput" type="number" min="0.01" step="0.01" required>
+                        </label>
+                        <div class="segmented-control" role="radiogroup" aria-label="Tipo de transação">
+                            <label>
+                                <input type="radio" name="type" value="INCOME" checked>
+                                <span>Receita</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="type" value="EXPENSE">
+                                <span>Despesa</span>
+                            </label>
+                        </div>
+                        <button class="primary-button" type="submit">Salvar transação</button>
+                        <p class="status-message" id="transactionStatus" aria-live="polite"></p>
+                    </form>
+
+                    <section class="recurring-panel">
+                        <div class="section-heading">
+                            <h3>Gastos recorrentes</h3>
+                            <span id="recurringCount">0 itens</span>
+                        </div>
+                        <form class="recurring-form" id="recurringForm">
+                            <label class="field" for="recurringNameInput">
+                                <span>Despesa</span>
+                                <input id="recurringNameInput" type="text" placeholder="Netflix, internet, celular" required>
+                            </label>
+                            <div class="compact-fields">
+                                <label class="field" for="recurringAmountInput">
+                                    <span>Valor</span>
+                                    <input id="recurringAmountInput" type="number" min="0.01" step="0.01" required>
+                                </label>
+                                <label class="field" for="recurringDayInput">
+                                    <span>Dia</span>
+                                    <input id="recurringDayInput" type="number" min="1" max="31" step="1" required>
+                                </label>
+                            </div>
+                            <button class="secondary-button" type="submit">Adicionar recorrente</button>
+                        </form>
+                        <div class="recurring-list" id="recurringList"></div>
+                    </section>
+
+                    <section class="transactions-panel">
+                        <div class="section-heading">
+                            <h3>Transações recentes</h3>
+                            <span id="transactionCount">0 itens</span>
+                        </div>
+                        <div class="transaction-list" id="transactionList"></div>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
